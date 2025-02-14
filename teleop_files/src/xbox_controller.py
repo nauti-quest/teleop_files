@@ -25,6 +25,7 @@ class XboxJoystickController:
         self.heave_up_trigger = 5  # Right trigger (increases heave)
         self.heave_down_trigger = 2  # Left trigger (decreases heave)
         self.yaw_axis = 3  # Right stick Left/Right
+        self.min_control_input = 0
 
     def joy_callback(self, joy_msg):
         twist = Twist()
@@ -44,7 +45,7 @@ class XboxJoystickController:
         rospy.loginfo(f"Linear x: {twist.linear.x}, Linear y: {twist.linear.y}, Angular z: {twist.angular.z}, Linear z (Heave): {twist.linear.z}")
 
         # Only publish if there is some non-zero motion
-        if abs(twist.linear.x) > 0.05 or abs(twist.linear.y) > 0.05 or abs(twist.angular.z) > 0.05 or abs(twist.linear.z) > 0.05:
+        if abs(twist.linear.x) >= self.min_control_input or abs(twist.linear.y) >= self.min_control_input or abs(twist.angular.z) >= self.min_control_input or abs(twist.linear.z) >= self.min_control_input:
             self.cmd_vel_pub.publish(twist)
         else:
             rospy.loginfo("No significant motion detected. Not publishing.")
