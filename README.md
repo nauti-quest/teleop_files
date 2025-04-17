@@ -38,3 +38,7 @@ To launch the usb cam node
 cd ~/usb_cam_files
 roslaunch usb_cam_files usb_cam.launch
 ```
+
+## Support
+For issues and questions, please open an issue in this repository.
+
